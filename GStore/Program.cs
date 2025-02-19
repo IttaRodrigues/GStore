@@ -12,7 +12,7 @@ builder.Services.AddControllersWithViews();
 string conexao = builder.Configuration.GetConnectionString("GStoreConn");
 builder.Services.AddDbContext<AppDbContext>(
     options => options.UseMySQL(conexao)
-
+    
 );
 
 // Configuracao com o Identity
@@ -22,6 +22,13 @@ builder.Services.AddIdentity<Usuario, IdentityRole>(
 .AddDefaultTokenProviders();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateAsyncScope())
+{
+    var contexto = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await contexto.Database.EnsureCreatedAsync();
+}
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

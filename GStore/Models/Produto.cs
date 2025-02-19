@@ -17,7 +17,7 @@ namespace GStore.Models;
 
         [Required(ErrorMessage = "Por favor, informe o Nome")]
         [StringLength(60, ErrorMessage = "O nome deve possuir no máximo 60 caracteres")]
-        public int Nome { get; set; }
+        public string Nome { get; set; }
 
         [Display(Name = "Descrição", Prompt = "Descrição")] //prompt deixa a frase atras igual no login Ex: informe seu email (de forma apagada)
         [StringLength(1000, ErrorMessage = "O nome deve possuir no máximo 1000 caracteres")]
