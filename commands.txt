@@ -6,7 +6,7 @@ dotnet new sln --name GStore
 dotnet new mvc -o GStore
 dotnet sln add GStore\GStore.csproj
 
-cd GStore 
+
 
 dotnet add package Microsoft.EntityFrameworkCore --version 9.0.2
 dotnet add package Microsoft.EntityFrameworkCore.Design --version 9.0.2
@@ -14,5 +14,20 @@ dotnet add package Microsoft.EntityFrameworkCore.Tools --version 9.0.2
 dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore --version 9.0.2
 dotnet add package MySql.EntityFrameworkCore --version 9.0.0
 
-criar as classes da camada de dados (Models)
+Criar as classes da camada de dados (Models)
+
+Criar a classe de contexto
+
+Configura a ConnectionString appsettings.json
+
+Configura os serviços de Context e Identity no Program.cs
+
+
+cd GStore 
+
+executar o xamp e o MySql
+
+dotnet watch run 
+
+
 
