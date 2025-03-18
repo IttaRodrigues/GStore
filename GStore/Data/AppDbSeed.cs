@@ -180,16 +180,16 @@ public class AppDbSeed
         #region Populate Usuário
         List<Usuario> usuarios = new() {
             new Usuario(){
-                Id = "IaraRodrigues",
-                Email = "iararodrigues49@hotmail.com",
-                NormalizedEmail = "IARARODRIGUES49@HOTMAIL.COM",
-                UserName = "IaraRodrigues",
-                NormalizedUserName = "IARARODRIGUES",
+                Id = "ddf093a6-6cb5-4ff7-9a64-83da34aee005",
+                Email = "bruuna.oliveiraa1@gmail.com",
+                NormalizedEmail = "BRUUNA.OLIVEIRAA1@GMAIL.COM",
+                UserName = "BrunaLopes",
+                NormalizedUserName = "BRUNALOPES",
                 LockoutEnabled = true,
                 EmailConfirmed = true,
-                Nome = "Iara Rodrigues de oliveira",
-                DataNascimento = DateTime.Parse("23/09/1995"),
-                Foto = "/img/usuarios/ddf093a6-6cb5-4ff7-9a64-83da34aee005.png" // caso quiser
+                Nome = "Bruna Maria Lopes de Oliveira",
+                DataNascimento = DateTime.Parse("06/02/1996"),
+                Foto = "/img/usuarios/ddf093a6-6cb5-4ff7-9a64-83da34aee005.png"
             }
         };
         foreach (var user in usuarios)

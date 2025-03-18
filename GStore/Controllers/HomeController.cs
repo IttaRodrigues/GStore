@@ -21,29 +21,28 @@ public class HomeController : Controller
     public IActionResult Index()
     {
         List<Produto> produtos = _db.Produtos
-        .Where(p => p.Destaque)
-        .Include( p => p.Fotos)
-        .ToList();
+            .Where(p => p.Destaque)
+            .Include(p => p.Fotos)
+            .ToList();
         return View(produtos);
     }
 
     public IActionResult Produto(int id)
     {
         Produto produto = _db.Produtos
-        .Where(p => p.Id == id)
-        .Include(p => p.Categoria)
-        .Include(p => p.Fotos)
-        .SingleOrDefault();
+            .Where(p => p.Id == id)
+            .Include(p => p.Categoria)
+            .Include(p => p.Fotos)
+            .SingleOrDefault();
 
-        ProdutoVM produtoVM = new()
-        {
+        ProdutoVM produtoVM = new() {
             Produto = produto
         };
-
         produtoVM.Produtos = _db.Produtos
-        .Where(p => p.CategoriaId == produto.CategoriaId)
-        .Take(4).ToList();
-        return View(produtoVM);
+            .Where(p => produto.CategoriaId == produto.CategoriaId)
+            .Take(4).ToList();
+            
+            return View(produtoVM);
     }
 
     public IActionResult Privacy()

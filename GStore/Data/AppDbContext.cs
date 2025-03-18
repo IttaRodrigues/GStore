@@ -34,7 +34,7 @@ public DbSet<Usuario> Usuarios {get; set;}
         builder.Entity<IdentityRoleClaim<string>>().ToTable("perfil_regra");
         #endregion
         
-        AppDbSeed seed = new(builder);        
+        AppDbSeed seed = new(builder);   
 
     }
 
