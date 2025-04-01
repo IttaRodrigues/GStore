@@ -1,8 +1,11 @@
 
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace GStore.Controllers;
+
+[Authorize(Roles = "Administrador")]
 
     public class AdminController : Controller
 {
