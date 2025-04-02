@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GStore.Controllers;
-
 public class AccountController : Controller
 {
     private readonly ILogger<AccountController> _logger;
@@ -66,7 +65,7 @@ public class AccountController : Controller
             }
             else
             if (result.IsNotAllowed) {
-                _logger.LogWarning($"Usuário {login.Email} não confirmou sau conta");
+                _logger.LogWarning($"Usuário {login.Email} não confirmou sua conta");
                 ModelState.AddModelError(string.Empty, "Sua conta não está confirmada, verifique seu emial!");
             }
             else
@@ -83,6 +82,7 @@ public class AccountController : Controller
         await _signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home");
     }
+
 
     public bool IsValidEmail(string email)
     {
