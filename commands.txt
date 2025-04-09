@@ -41,7 +41,7 @@ dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design --version 9.
 
 dotnet aspnet-codegenerator controller -name ProdutosController --model Produto --dataContext AppDbContext --layout "~/Views/Shared/_LayoutAdmin.cshtml" -outDir Controllers
 
-paramos Registro.cshtml verificar os erros
+paramos no slide 48
 
 
 

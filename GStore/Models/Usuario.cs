@@ -11,9 +11,9 @@ namespace GStore.Models;
         [StringLength(60, ErrorMessage = " O nome deve possuir no maximo 60 caracteres")]
         public string Nome { get; set; }
 
-        [DataType(DataType.Date)]
         [Display(Name = "Data de Nascimento")]
-        public DateTime DataNascimento { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? DataNascimento { get; set; }
 
         [StringLength (300)]
         public string Foto { get; set; }

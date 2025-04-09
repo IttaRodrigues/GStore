@@ -1,5 +1,7 @@
 using System.Net.Mail;
 using System.Security.Claims;
+using GStore.Data;
+using GStore.Helpers;
 using GStore.Models;
 using GStore.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -12,18 +14,21 @@ public class AccountController : Controller
     private readonly SignInManager<Usuario> _signInManager;
     private readonly UserManager<Usuario> _userManager;
     private readonly IWebHostEnvironment _host;
+    private readonly AppDbContext _db;
 
     public AccountController(
         ILogger<AccountController> logger,
         SignInManager<Usuario> signInManager,
         UserManager<Usuario> userManager,
-        IWebHostEnvironment host
+        IWebHostEnvironment host,
+        AppDbContext db
     )
     {
         _logger = logger;
         _signInManager = signInManager;
         _userManager = userManager;
         _host = host;
+        _db = db;
     }
 
     [HttpGet]
