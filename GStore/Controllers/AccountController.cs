@@ -59,17 +59,17 @@ public class AccountController : Controller
                 userName, login.Senha, login.Lembrar, lockoutOnFailure: true
             );
 
-            if (result.Succeeded) {
+            if (result.Succeeded){
                 _logger.LogInformation($"Usuário {login.Email} acessou o sistema");
                 return LocalRedirect(login.UrlRetorno);
             }
 
-            if (result.IsLockedOut) {
+            if (result.IsLockedOut){
                 _logger.LogWarning($"Usuário {login.Email} está bloqueado");
                 ModelState.AddModelError("", "Sua conta está bloqueada, aguarde alguns minutos e tente novamente!");
             }
             else
-            if (result.IsNotAllowed) {
+            if (result.IsNotAllowed){
                 _logger.LogWarning($"Usuário {login.Email} não confirmou sua conta");
                 ModelState.AddModelError(string.Empty, "Sua conta não está confirmada, verifique seu emial!");
             }
@@ -94,7 +94,55 @@ public class AccountController : Controller
         RegistroVM register = new();
         return View(register);
     }
-    
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Registro(RegistroVM registro)
+    {
+        if (ModelState.IsValid)
+        {
+            var usuario = Activator.CreateInstance<Usuario>();
+            usuario.Nome = registro.Nome;
+            usuario.DataNascimento = registro.DataNascimento;
+            usuario.UserName = registro.Email;
+            usuario.NormalizedUserName = registro.Email.ToUpper();
+            usuario.Email = registro.Email;
+            usuario.NormalizedEmail = registro.Email.ToUpper();
+            usuario.EmailConfirmed = true;
+            var result = await _userManager.CreateAsync(usuario, registro.Senha);
+
+            if (result.Succeeded)
+            {
+                _logger.LogInformation($"Novo usuário registrado com o email {registro.Email}.");
+
+                await _userManager.AddToRoleAsync(usuario, "Cliente");
+
+                if (registro.Foto != null)
+                {
+                    string nomeArquivo = usuario.Id + Path.GetExtension(registro.Foto.FileName);
+                    string caminho = Path.Combine(_host.WebRootPath, @"img\usuarios");
+                    string novoArquivo = Path.Combine(caminho, nomeArquivo);
+                    using (var stream = new FileStream(novoArquivo, FileMode.Create))
+                    {
+                        registro.Foto.CopyTo(stream);
+                    }
+                    usuario.Foto = @"\img\usuarios\" + nomeArquivo;
+                    await _db.SaveChangesAsync();
+                }
+
+                TempData["Success"] = "Conta Criada com Sucesso!";
+                return RedirectToAction(nameof(Login));
+            }
+
+            foreach (var error in result.Errors)
+                ModelState.AddModelError(string.Empty, TranslateIdentityErrors.TranslateErrorMessage(error.Code));
+        }
+        return View(registro);
+    }
+    public IActionResult AccessDenied()
+    {
+        return View();
+    }
     public bool IsValidEmail(string email)
     {
         try
@@ -102,9 +150,10 @@ public class AccountController : Controller
             MailAddress m = new(email);
             return true;
         }
-        catch (FormatException)
+        catch(FormatException)
         {
             return false;
         }
     }
+
 }
