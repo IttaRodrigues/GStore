@@ -39,10 +39,8 @@ public class HomeController : Controller
             Produto = produto
         };
         produtoVM.Produtos = _db.Produtos
-            .Where(p => produto.CategoriaId == produto.CategoriaId)
-            .Take(4)
-            .Include(p => p.Fotos)
-            .ToList();
+            .Where(p => p.CategoriaId == produto.CategoriaId)
+            .Take(4).ToList();
         return View(produtoVM);
     }
 

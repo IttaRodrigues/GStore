@@ -1,10 +1,12 @@
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GStore.Data;
 using GStore.Models;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using ZstdSharp.Unsafe;
 
 namespace GStore.Controllers
 {
@@ -64,7 +66,7 @@ namespace GStore.Controllers
                 if (Arquivo != null)
                 {
                     string filename = categoria.Id + Path.GetExtension(Arquivo.FileName);
-                    string caminho = Path.Combine(_host.WebRootPath, "img\\categorias");
+                    string caminho = Path.Combine(_host.WebRootPath, "img\\categorias"); 
                     string novoArquivo = Path.Combine(caminho, filename);
                     using (var stream = new FileStream(novoArquivo, FileMode.Create))
                     {
@@ -73,7 +75,7 @@ namespace GStore.Controllers
                     categoria.Foto = "\\img\\categorias\\" + filename;
                     await _context.SaveChangesAsync();
                 }
-                TempData["Success"] = "Categoria cadastrada com sucesso!";
+                TempData["Success"] = "Categoria Cadastrada com Sucesso";
                 return RedirectToAction(nameof(Index));
             }
             return View(categoria);
@@ -110,19 +112,20 @@ namespace GStore.Controllers
             if (ModelState.IsValid)
             {
                 try
-                { 
-                    if (Arquivo != null)
+                {
+                    if(Arquivo != null)
                     {
                         string filename = categoria.Id + Path.GetExtension(Arquivo.FileName);
                         string caminho = Path.Combine(_host.WebRootPath, "img\\categorias");
                         string novoArquivo = Path.Combine(caminho, filename);
-                        using (var stream = new FileStream (novoArquivo, FileMode.Create))
-                    {
-                        Arquivo.CopyTo(stream);
-                    }
-                    categoria.Foto = "\\img\\categorias\\" + filename;
-                    }
+                        using (var stream = new FileStream(novoArquivo, FileMode.Create))
+                        {
+                            Arquivo.CopyTo(stream);
+                        }
+                        categoria.Foto = "\\img\\categorias\\" + filename;
+                        await _context.SaveChangesAsync();
 
+                    }
                     _context.Update(categoria);
                     await _context.SaveChangesAsync();
                 }

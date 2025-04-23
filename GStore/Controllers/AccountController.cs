@@ -59,22 +59,25 @@ public class AccountController : Controller
                 userName, login.Senha, login.Lembrar, lockoutOnFailure: true
             );
 
-            if (result.Succeeded){
+            if (result.Succeeded)
+            {
                 _logger.LogInformation($"Usuário {login.Email} acessou o sistema");
                 return LocalRedirect(login.UrlRetorno);
             }
 
-            if (result.IsLockedOut){
+            if (result.IsLockedOut)
+            {
                 _logger.LogWarning($"Usuário {login.Email} está bloqueado");
-                ModelState.AddModelError("", "Sua conta está bloqueada, aguarde alguns minutos e tente novamente!");
+                ModelState.AddModelError("", "Sua conta está bloqueada, aguarde alguns minutos e tente novamente!!");
             }
             else
-            if (result.IsNotAllowed){
+            if (result.IsNotAllowed)
+            {
                 _logger.LogWarning($"Usuário {login.Email} não confirmou sua conta");
-                ModelState.AddModelError(string.Empty, "Sua conta não está confirmada, verifique seu emial!");
+                ModelState.AddModelError(string.Empty, "Sua conta não está confirmada, verifique seu email!!");
             }
             else
-                ModelState.AddModelError(string.Empty, "Usuário e/ou Senha Inválidos!");
+                ModelState.AddModelError(string.Empty, "Usuário e/ou Senha Inválidos!!!");
         }
         return View(login);
     }
@@ -94,7 +97,7 @@ public class AccountController : Controller
         RegistroVM register = new();
         return View(register);
     }
-
+    
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Registro(RegistroVM registro)
@@ -129,7 +132,6 @@ public class AccountController : Controller
                     usuario.Foto = @"\img\usuarios\" + nomeArquivo;
                     await _db.SaveChangesAsync();
                 }
-
                 TempData["Success"] = "Conta Criada com Sucesso!";
                 return RedirectToAction(nameof(Login));
             }
@@ -139,10 +141,14 @@ public class AccountController : Controller
         }
         return View(registro);
     }
+
     public IActionResult AccessDenied()
     {
         return View();
     }
+
+
+
     public bool IsValidEmail(string email)
     {
         try
@@ -150,10 +156,9 @@ public class AccountController : Controller
             MailAddress m = new(email);
             return true;
         }
-        catch(FormatException)
+        catch (FormatException)
         {
             return false;
         }
     }
-
 }
